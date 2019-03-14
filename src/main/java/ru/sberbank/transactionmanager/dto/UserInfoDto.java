@@ -3,6 +3,7 @@ package ru.sberbank.transactionmanager.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -14,6 +15,16 @@ public class UserInfoDto {
      * Идентификатор пользователя
      */
     public Long id;
+
+    /**
+     * Дата создания пользователя
+     */
+    public LocalDateTime createdTime;
+
+    /**
+     * Дата редактирования пользователя
+     */
+    public LocalDateTime modifiedTime;
 
     /**
      * Имя

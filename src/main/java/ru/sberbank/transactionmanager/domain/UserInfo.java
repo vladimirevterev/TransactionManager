@@ -2,26 +2,29 @@ package ru.sberbank.transactionmanager.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "USER_INFO")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     /**
      * Идентификатор пользователя
      */
     @Id
     @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @Column(name = "ID", nullable = false)
     public Long id;
 
     /**
@@ -47,5 +50,27 @@ public class UserInfo {
      */
     @Column(name = "BIRTH_DATE")
     public LocalDate birthDate;
+
+    /**
+     * Список {@link Account} счетов пользователя
+     */
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Account> accounts;
+
+    /**
+     * Дата создания пользователя в системе
+     */
+    @Temporal(TemporalType.TIME)
+    @Generated(GenerationTime.INSERT)
+    @Column(name="CREATED_TIME", insertable=false)
+    public Date createdTime;
+
+    /**
+     * Дата обновления пользователя в системе
+     */
+    @Temporal(TemporalType.TIME)
+    @Generated(GenerationTime.ALWAYS)
+    @Column(name="MODIFIED_TIME", insertable=false, updatable=false)
+    public Date modifiedTime;
 
 }
