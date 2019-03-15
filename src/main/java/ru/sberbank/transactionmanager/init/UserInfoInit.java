@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ru.sberbank.transactionmanager.domain.Account;
-import ru.sberbank.transactionmanager.domain.UserInfo;
+import ru.sberbank.transactionmanager.domain.account.Account;
+import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
 import ru.sberbank.transactionmanager.repository.AccountRepository;
 import ru.sberbank.transactionmanager.repository.UserInfoRepository;
 
@@ -31,6 +31,7 @@ public class UserInfoInit implements ApplicationRunner {
 
     private void generateUserInfoData() {
         UserInfo userInfo = UserInfo.builder()
+                .login("Evterev-VM")
                 .firstName("Vladimir")
                 .lastName("Evterev")
                 .middleName("Michailovich")

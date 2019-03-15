@@ -2,7 +2,7 @@ package ru.sberbank.transactionmanager.mapper;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
-import ru.sberbank.transactionmanager.domain.UserInfo;
+import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
 import ru.sberbank.transactionmanager.dto.UserInfoDto;
 
 @Component

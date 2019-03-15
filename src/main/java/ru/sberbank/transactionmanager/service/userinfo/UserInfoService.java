@@ -1,6 +1,6 @@
 package ru.sberbank.transactionmanager.service.userinfo;
 
-import ru.sberbank.transactionmanager.domain.UserInfo;
+import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
 import ru.sberbank.transactionmanager.dto.UserInfoDto;
 
 public interface UserInfoService {
