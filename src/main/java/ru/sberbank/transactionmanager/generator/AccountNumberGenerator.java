@@ -1,16 +1,14 @@
 package ru.sberbank.transactionmanager.generator;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.tuple.AnnotationValueGeneration;
 import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.tuple.ValueGenerator;
-import ru.sberbank.transactionmanager.annotation.UuidGeneration;
+import ru.sberbank.transactionmanager.annotation.AccountNumberGeneration;
 
-import java.util.UUID;
-
-public class UuidGenerator implements AnnotationValueGeneration<UuidGeneration> {
-
+public class AccountNumberGenerator implements AnnotationValueGeneration<AccountNumberGeneration> {
     @Override
-    public void initialize(UuidGeneration annotation, Class<?> propertyType) {
+    public void initialize(AccountNumberGeneration annotation, Class<?> propertyType) {
 
     }
 
@@ -21,7 +19,7 @@ public class UuidGenerator implements AnnotationValueGeneration<UuidGeneration> 
 
     @Override
     public ValueGenerator<?> getValueGenerator() {
-        return (ValueGenerator<String>) (session, owner) -> UUID.randomUUID().toString().toUpperCase();
+        return (ValueGenerator<String>) (session, owner) -> RandomStringUtils.randomNumeric(20);
     }
 
     @Override

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import ru.sberbank.transactionmanager.annotation.UuidGeneration;
+import ru.sberbank.transactionmanager.annotation.AccountNumberGeneration;
 import ru.sberbank.transactionmanager.domain.Auditable;
 import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
 
@@ -20,14 +20,14 @@ public class Account extends Auditable<Long> {
     /**
      * Номер счета
      */
-    @UuidGeneration
+    @AccountNumberGeneration
     @Column(name = "NUMBER")
     public String number;
 
     /**
      * Остаток средств по счету
      */
-    @Column(name = "BALANCE")
+    @Column(name = "BALANCE", nullable = false)
     public Double balance;
 
     /**
@@ -40,7 +40,7 @@ public class Account extends Auditable<Long> {
     /**
      * Признак, указывающий на то, что данный счет является главным для пользователя
      */
-    @Column(name = "IS_PRIMARY")
+    @Column(name = "IS_PRIMARY", nullable = false)
     public Boolean isPrimary;
 
 }

@@ -7,9 +7,7 @@ import ru.sberbank.transactionmanager.domain.Auditable;
 import ru.sberbank.transactionmanager.domain.account.Account;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
