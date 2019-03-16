@@ -1,4 +1,4 @@
-package ru.sberbank.transactionmanager.domain;
+package ru.sberbank.transactionmanager.domain.entity;
 
 import lombok.Data;
 

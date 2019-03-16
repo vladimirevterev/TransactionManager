@@ -1,11 +1,11 @@
-package ru.sberbank.transactionmanager.domain.transaction;
+package ru.sberbank.transactionmanager.domain.entity.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import ru.sberbank.transactionmanager.annotation.UuidGeneration;
-import ru.sberbank.transactionmanager.domain.Auditable;
-import ru.sberbank.transactionmanager.domain.account.Account;
+import ru.sberbank.transactionmanager.domain.generator.annotation.UuidGeneration;
+import ru.sberbank.transactionmanager.domain.entity.Auditable;
+import ru.sberbank.transactionmanager.domain.entity.account.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;

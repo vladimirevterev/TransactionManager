@@ -1,9 +1,9 @@
-package ru.sberbank.transactionmanager.domain.transaction;
+package ru.sberbank.transactionmanager.domain.entity.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import ru.sberbank.transactionmanager.domain.Identified;
+import ru.sberbank.transactionmanager.domain.entity.Identified;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

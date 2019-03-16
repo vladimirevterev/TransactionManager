@@ -1,10 +1,10 @@
-package ru.sberbank.transactionmanager.domain.userinfo;
+package ru.sberbank.transactionmanager.domain.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import ru.sberbank.transactionmanager.domain.Auditable;
-import ru.sberbank.transactionmanager.domain.account.Account;
+import ru.sberbank.transactionmanager.domain.entity.Auditable;
+import ru.sberbank.transactionmanager.domain.entity.account.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.PastOrPresent;

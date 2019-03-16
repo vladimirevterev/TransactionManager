@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ru.sberbank.transactionmanager.domain.account.Account;
-import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
-import ru.sberbank.transactionmanager.repository.AccountRepository;
-import ru.sberbank.transactionmanager.repository.UserInfoRepository;
+import ru.sberbank.transactionmanager.domain.entity.account.Account;
+import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
+import ru.sberbank.transactionmanager.domain.repository.account.AccountRepository;
+import ru.sberbank.transactionmanager.domain.repository.user.UserInfoRepository;
 
 import java.time.LocalDate;
 

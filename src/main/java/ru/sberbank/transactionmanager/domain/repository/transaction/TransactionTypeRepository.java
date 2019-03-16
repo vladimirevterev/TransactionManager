@@ -1,8 +1,8 @@
-package ru.sberbank.transactionmanager.repository;
+package ru.sberbank.transactionmanager.domain.repository.transaction;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.sberbank.transactionmanager.domain.transaction.TransactionType;
+import ru.sberbank.transactionmanager.domain.entity.transaction.TransactionType;
 
 @Repository
 public interface TransactionTypeRepository extends CrudRepository<TransactionType, Long> {

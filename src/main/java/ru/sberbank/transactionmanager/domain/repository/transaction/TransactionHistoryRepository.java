@@ -1,9 +1,9 @@
-package ru.sberbank.transactionmanager.repository;
+package ru.sberbank.transactionmanager.domain.repository.transaction;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.sberbank.transactionmanager.domain.account.Account;
-import ru.sberbank.transactionmanager.domain.transaction.TransactionHistory;
+import ru.sberbank.transactionmanager.domain.entity.account.Account;
+import ru.sberbank.transactionmanager.domain.entity.transaction.TransactionHistory;
 
 import java.util.List;
 

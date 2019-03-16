@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sberbank.transactionmanager.dto.UserInfoDto;
+import ru.sberbank.transactionmanager.dto.user.UserInfoDto;
 import ru.sberbank.transactionmanager.service.userinfo.UserInfoService;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -16,7 +16,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @AllArgsConstructor
 public class TransactionManagerController {
 
-    public static final String USER_INFO_ROUTE = "/userinfo/{id}";
+    public static final String USER_INFO_ROUTE = "/user/{id}";
 
     public static final String MONEY_TRANSFER_ROUTE = "/moneytransfer";
 
