@@ -9,7 +9,11 @@ import ru.sberbank.transactionmanager.domain.Auditable;
 import ru.sberbank.transactionmanager.domain.userinfo.UserInfo;
 
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 
+/**
+ * Сущность, описывающая таблицу "Счет"
+ */
 @Entity
 @Table(name = "ACCOUNT")
 @Builder
@@ -27,14 +31,23 @@ public class Account extends Auditable<Long> {
     /**
      * Остаток средств по счету
      */
-    @Column(name = "BALANCE", nullable = false)
+    @Column(
+            name = "BALANCE",
+            nullable = false,
+            columnDefinition = "Decimal(10,2) default '100.00'"
+    )
+    @PositiveOrZero
     public Double balance;
 
     /**
      * Пользователь-владелец счета
      */
     @ManyToOne
-    @JoinColumn(name = "USER_INFO_ID", foreignKey = @ForeignKey(name = "USER_INFO_ID_FK"))
+    @JoinColumn(
+            name = "USER_INFO_ID",
+            foreignKey = @ForeignKey(name = "USER_INFO_ID_FK"),
+            nullable = false
+    )
     UserInfo userInfo;
 
     /**

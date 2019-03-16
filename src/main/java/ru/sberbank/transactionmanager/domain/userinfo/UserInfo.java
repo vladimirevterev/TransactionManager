@@ -7,9 +7,13 @@ import ru.sberbank.transactionmanager.domain.Auditable;
 import ru.sberbank.transactionmanager.domain.account.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Сущность, описывающая таблицу "Пользователь"
+ */
 @Entity
 @Table(name = "USER_INFO")
 @Builder
@@ -45,6 +49,7 @@ public class UserInfo extends Auditable<Long> {
      * Дата рождения
      */
     @Column(name = "BIRTH_DATE")
+    @PastOrPresent
     public LocalDate birthDate;
 
     /**
