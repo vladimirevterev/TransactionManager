@@ -21,15 +21,15 @@ import javax.validation.constraints.PositiveOrZero;
 public class TransactionHistory extends Auditable<Long> {
 
     /**
-     * Код транзакции
+     * UUID транзакции
      */
     @UuidGeneration
     @Column(
-            name = "CODE",
+            name = "UUID",
             unique = true,
             nullable = false
     )
-    public String code;
+    public String uuid;
 
     /**
      * Тип тразакции
@@ -37,7 +37,7 @@ public class TransactionHistory extends Auditable<Long> {
     @ManyToOne
     @JoinColumn(
             name = "TRANSACTION_TYPE_ID",
-            foreignKey = @ForeignKey(name = "TRANSACTION_TYPE_ID_FK"),
+            foreignKey = @ForeignKey(name = "TRANSACTION_TYPE_TRANSACTION_HISTORY_FK"),
             nullable = false
     )
     public TransactionType transactionType;

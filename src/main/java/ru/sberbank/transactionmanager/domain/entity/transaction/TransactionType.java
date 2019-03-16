@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Сущность, описывающая таблицу "Тип тразакции"
+ * Сущность, описывающая таблицу "Справочник типов тразакций"
  */
 @Entity
 @Table(name = "TRANSACTION_TYPE")

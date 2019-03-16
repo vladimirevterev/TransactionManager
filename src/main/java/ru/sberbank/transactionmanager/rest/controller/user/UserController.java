@@ -25,6 +25,11 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
 
+    /**
+     * Получение информации о пользователе
+     * @param id идентификатор пользователя
+     * @return {@link ResponseEntity<UserInfoDTO>}
+     */
     @ApiOperation(value = "Получение информации о пользователе", response = UserInfoDTO.class)
     @GetMapping(
             path = USER_INFO_ROUTE,

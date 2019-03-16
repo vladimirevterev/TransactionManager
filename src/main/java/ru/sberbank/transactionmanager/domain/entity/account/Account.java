@@ -34,7 +34,7 @@ public class Account extends Auditable<Long> {
     @Column(
             name = "BALANCE",
             nullable = false,
-            columnDefinition = "Decimal(10,2) default '100.00'"
+            columnDefinition = "Decimal(10,2) default '0'"
     )
     @PositiveOrZero
     public Double balance;
@@ -45,7 +45,7 @@ public class Account extends Auditable<Long> {
     @ManyToOne
     @JoinColumn(
             name = "USER_INFO_ID",
-            foreignKey = @ForeignKey(name = "USER_INFO_ID_FK"),
+            foreignKey = @ForeignKey(name = "USER_INFO_ACCOUNT_FK"),
             nullable = false
     )
     UserInfo userInfo;

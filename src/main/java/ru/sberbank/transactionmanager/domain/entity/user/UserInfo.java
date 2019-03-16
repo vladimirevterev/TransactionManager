@@ -28,6 +28,12 @@ public class UserInfo extends Auditable<Long> {
     public String login;
 
     /**
+     * Пароль пользователя в зашифрованном виде
+     */
+    @Column(name = "ENCRYPTED_PASSWORD")
+    public String encryptedPassword;
+
+    /**
      * Имя
      */
     @Column(name = "FIRST_NAME", length = 64, nullable = false)
@@ -57,5 +63,12 @@ public class UserInfo extends Auditable<Long> {
      */
     @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Account> accounts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = @JoinColumn(name = "USER_INFO_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    List<Role> roles;
 
 }
