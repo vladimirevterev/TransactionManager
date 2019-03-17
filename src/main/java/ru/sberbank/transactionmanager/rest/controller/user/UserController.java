@@ -2,8 +2,6 @@ package ru.sberbank.transactionmanager.rest.controller.user;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +18,9 @@ import static org.springframework.http.ResponseEntity.ok;
 @Api(value = "user", description = "Оперции управления пользователями системы")
 public class UserController {
 
-    private static final String USER_INFO_ROUTE = "/{id}";
+    private static final String BASIC_ROUTE = "/";
+    private static final String ID_ROUTE = "/{id}";
+
 
     @Autowired
     private UserInfoService userInfoService;
@@ -32,11 +32,24 @@ public class UserController {
      */
     @ApiOperation(value = "Получение информации о пользователе", response = UserInfoDTO.class)
     @GetMapping(
-            path = USER_INFO_ROUTE,
+            path = ID_ROUTE,
             produces = APPLICATION_JSON_VALUE
     )
     public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable Long id) {
         return ok(userInfoService.getUserInfo(id));
+    }
+
+    /**
+     * Создание пользователя системы
+     * @return {@link ResponseEntity<UserInfoDTO>}
+     */
+    @ApiOperation(value = "Создание пользователя системы", response = UserInfoDTO.class)
+    @PutMapping(
+            path = BASIC_ROUTE,
+            produces = APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<UserInfoDTO> createUser(@RequestBody UserInfoDTO userInfoDTO) {
+        return ok(userInfoService.createUserInfo(userInfoDTO));
     }
 
 }

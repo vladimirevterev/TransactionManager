@@ -8,6 +8,7 @@ import ru.sberbank.transactionmanager.rest.dto.user.UserInfoDTO;
 @Component
 public class UserInfoMapper {
 
+    // TODO: завести маперы. Сейчас не работают
     public UserInfo toEntity(UserInfoDTO userInfoDto) {
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userInfoDto, userInfo);

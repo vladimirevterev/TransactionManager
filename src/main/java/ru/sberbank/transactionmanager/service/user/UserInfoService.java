@@ -9,8 +9,16 @@ public interface UserInfoService {
      * Получение информации о пользователе с переданным идентификатором
      *
      * @param userId идентификатор пользователя
-     * @return {@link UserInfo} информация о пользователе
+     * @return {@link UserInfoDTO} информация о пользователе
      */
     UserInfoDTO getUserInfo(Long userId);
+
+    /**
+     * Создание пользователя системы
+     *
+     * @param userInfoDTO данные пользователя
+     * @return {@link UserInfoDTO}
+     */
+    UserInfoDTO createUserInfo(UserInfoDTO userInfoDTO);
 
 }
