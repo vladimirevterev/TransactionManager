@@ -2,6 +2,7 @@ package ru.sberbank.transactionmanager.domain.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.sberbank.transactionmanager.domain.entity.Auditable;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class UserRole extends Auditable<Long> {
 
     /**
