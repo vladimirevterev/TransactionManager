@@ -7,6 +7,6 @@ import ru.sberbank.transactionmanager.domain.entity.user.Role;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
 
-    Role getRoleByCode(String code);
+    Role findRoleByCode(String code);
 
 }
