@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] H2_ENDPOINTS = {
-            "/h2-console"
+            "/h2-console/**"
     };
 
     @Autowired
