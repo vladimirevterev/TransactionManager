@@ -1,24 +1,48 @@
 package ru.sberbank.transactionmanager.service.user;
 
-import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.sberbank.transactionmanager.rest.dto.user.UserInfoDTO;
 
 public interface UserInfoService {
 
     /**
-     * Получение информации о пользователе с переданным идентификатором
+     * Получение перечня всех пользователей постранично
      *
-     * @param userId идентификатор пользователя
-     * @return {@link UserInfoDTO} информация о пользователе
+     * @param pageable параметр паджинации
+     * @return {@link Page<UserInfoDTO>}
      */
-    UserInfoDTO getUserInfo(Long userId);
+    Page<UserInfoDTO> getUsers(Pageable pageable);
 
     /**
-     * Создание пользователя системы
+     * Создание пользователя
      *
      * @param userInfoDTO данные пользователя
      * @return {@link UserInfoDTO}
      */
-    UserInfoDTO createUserInfo(UserInfoDTO userInfoDTO);
+    UserInfoDTO createUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * Получение информации о пользователе
+     *
+     * @param userId идентификатор пользователя
+     * @return {@link UserInfoDTO} информация о пользователе
+     */
+    UserInfoDTO getUser(Long userId);
+
+    /**
+     * Редактирование информации о пользователе
+     *
+     * @param userInfoDTO обновленные данные пользователя
+     * @return {@link UserInfoDTO}
+     */
+    UserInfoDTO updateUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * Удаление пользователя
+     *
+     * @param userId идентификатор пользователя
+     */
+    void deleteUser(Long userId);
 
 }
