@@ -1,8 +1,6 @@
 package ru.sberbank.transactionmanager.domain.entity.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import ru.sberbank.transactionmanager.domain.generator.annotation.AccountNumberGeneration;
 import ru.sberbank.transactionmanager.domain.entity.Auditable;
@@ -19,6 +17,8 @@ import javax.validation.constraints.PositiveOrZero;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Account extends Auditable<Long> {
 
     /**
@@ -45,7 +45,7 @@ public class Account extends Auditable<Long> {
     @ManyToOne
     @JoinColumn(
             name = "USER_INFO_ID",
-            foreignKey = @ForeignKey(name = "USER_INFO_ACCOUNT_FK"),
+            foreignKey  = @ForeignKey(name = "USER_INFO_ACCOUNT_FK"),
             nullable = false
     )
     UserInfo userInfo;

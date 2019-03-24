@@ -1,9 +1,6 @@
 package ru.sberbank.transactionmanager.domain.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.sberbank.transactionmanager.domain.entity.Identified;
 
 import javax.persistence.Column;
@@ -22,9 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Role extends Identified {
 
     private static final String ROLE_PATTERN = "ROLE_[A-Za-z]+";
+
     /**
      * Код роли
      */

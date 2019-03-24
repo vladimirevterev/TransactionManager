@@ -1,8 +1,6 @@
 package ru.sberbank.transactionmanager.domain.entity.transaction;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.sberbank.transactionmanager.domain.entity.Identified;
 
 import javax.persistence.Column;
@@ -17,6 +15,8 @@ import javax.persistence.Table;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class TransactionType extends Identified {
 
     /**

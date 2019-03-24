@@ -2,33 +2,25 @@ package ru.sberbank.transactionmanager.rest.dto.user;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import ru.sberbank.transactionmanager.rest.dto.AuditableDTO;
+import ru.sberbank.transactionmanager.rest.dto.account.AccountDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class UserInfoDTO {
+@Getter
+@Setter
+public class UserInfoDTO extends AuditableDTO<Long> {
 
     /**
-     * Идентификатор пользователя
+     * Логин пользователя
      */
-    @ApiModelProperty(notes = "Идентификатор пользователя")
-    public Long id;
-
-    /**
-     * Дата создания пользователя
-     */
-    @ApiModelProperty(notes = "Дата создания пользователя")
-    public LocalDateTime createdTime;
-
-    /**
-     * Дата редактирования пользователя
-     */
-    @ApiModelProperty(notes = "Дата редактирования пользователя")
-    public LocalDateTime modifiedTime;
+    @ApiModelProperty(notes = "Логин пользователя")
+    public String login;
 
     /**
      * Имя пользователя
@@ -53,5 +45,17 @@ public class UserInfoDTO {
      */
     @ApiModelProperty(notes = "Дата рождения пользователя")
     public LocalDate birthDate;
+
+    /**
+     * Список ролей пользователя
+     */
+    @ApiModelProperty(notes = "Список ролей пользователя")
+    public List<RoleDTO> roles;
+
+    /**
+     * Список счетов пользователя
+     */
+    @ApiModelProperty(notes = "Список счетов пользователя")
+    public List<AccountDTO> accounts;
 
 }

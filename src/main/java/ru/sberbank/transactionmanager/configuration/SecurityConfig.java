@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PAGE_URI = "/login";
     private static final String ADMIN_PAGE_URL_PATTERN = "/admin/**";
     private static final String USER_PAGE_URL_PATTERN = "/user/**";
-    private static final String API_V1_URL_PATTERN = "/api/v1/**";
+    private static final String API_V1_URL_PATTERN = "/api/**";
 
     private static final String[] SWAGGER_ENDPOINTS = {
             "/v2/api-docs",

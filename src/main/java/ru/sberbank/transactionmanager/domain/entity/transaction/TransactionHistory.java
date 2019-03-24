@@ -1,8 +1,6 @@
 package ru.sberbank.transactionmanager.domain.entity.transaction;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.sberbank.transactionmanager.domain.generator.annotation.UuidGeneration;
 import ru.sberbank.transactionmanager.domain.entity.Auditable;
 import ru.sberbank.transactionmanager.domain.entity.account.Account;
@@ -18,6 +16,8 @@ import javax.validation.constraints.PositiveOrZero;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class TransactionHistory extends Auditable<Long> {
 
     /**

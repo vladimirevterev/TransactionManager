@@ -1,9 +1,6 @@
 package ru.sberbank.transactionmanager.domain.entity.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.sberbank.transactionmanager.domain.entity.Auditable;
 import ru.sberbank.transactionmanager.domain.entity.account.Account;
 
@@ -21,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class UserInfo extends Auditable<Long> {
 
     /**
@@ -66,7 +64,7 @@ public class UserInfo extends Auditable<Long> {
     @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Account> accounts;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_INFO_ID"),
