@@ -12,13 +12,13 @@ import javax.validation.constraints.PositiveOrZero;
  * Сущность, описывающая таблицу "История транзакций"
  */
 @Entity
-@Table(name = "TRANSACTION_HISTORY")
+@Table(name = "TRANSACTION")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TransactionHistory extends Auditable<Long> {
+public class Transaction extends Auditable<Long> {
 
     /**
      * UUID транзакции

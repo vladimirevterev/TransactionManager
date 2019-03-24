@@ -23,8 +23,8 @@ public class UserController {
     private static final String ID = "id";
     private static final String ID_ROUTE = "/{id}";
     private static final String BASE_USER_ROUTE = "/user";
-    private static final String GET_USERS_ROUTE = BASE_USER_ROUTE + "/list";
-    private static final String GET_USER_ROUTE = BASE_USER_ROUTE + ID_ROUTE;
+    private static final String GET_LIST_ROUTE = BASE_USER_ROUTE + "/list";
+    private static final String GET_ROUTE = BASE_USER_ROUTE + ID_ROUTE;
     private static final String CREATE_ROUTE = BASE_USER_ROUTE + "/create";
     private static final String UPDATE_ROUTE = BASE_USER_ROUTE + "/update";
     private static final String DELETE_ROUTE = BASE_USER_ROUTE + "/delete" + ID_ROUTE;
@@ -39,7 +39,7 @@ public class UserController {
      */
     @ApiOperation(value = "Получение перечня всех пользователей системы постранично", response = Page.class)
     @GetMapping(
-            path = GET_USERS_ROUTE,
+            path = GET_LIST_ROUTE,
             produces = APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Page<UserInfoDTO>> getUsers(Pageable pageable) {
@@ -69,7 +69,7 @@ public class UserController {
      */
     @ApiOperation(value = "Получение информации о пользователе системы", response = UserInfoDTO.class)
     @GetMapping(
-            path = GET_USER_ROUTE,
+            path = GET_ROUTE,
             produces = APPLICATION_JSON_VALUE
     )
     public ResponseEntity<UserInfoDTO> getUser(@PathVariable(ID) Long userId) {
