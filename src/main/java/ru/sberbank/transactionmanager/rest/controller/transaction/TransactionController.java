@@ -6,7 +6,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.sberbank.transactionmanager.rest.annotation.BaseRestController;
+import ru.sberbank.transactionmanager.rest.dto.operation.RemittanceDTO;
+import ru.sberbank.transactionmanager.rest.dto.operation.ReplenishmentDTO;
+import ru.sberbank.transactionmanager.rest.dto.operation.WithdrawalDTO;
 import ru.sberbank.transactionmanager.rest.dto.transaction.TransactionDTO;
 import ru.sberbank.transactionmanager.service.transaction.TransactionService;
 
@@ -21,7 +26,7 @@ public class TransactionController {
     private static final String BASE_TRANSACTION_ROUTE = "/transaction";
     private static final String ID_ROUTE = "/{id}";
     private static final String GET_ROUTE = BASE_TRANSACTION_ROUTE + ID_ROUTE;
-    private static final String RECHARGE_ROUTE = BASE_TRANSACTION_ROUTE + "/recharge";
+    private static final String REPLENISHMENT_ROUTE = BASE_TRANSACTION_ROUTE + "/replenishment";
     private static final String WITHDRAWAL_ROUTE = BASE_TRANSACTION_ROUTE + "/withdrawal";
     private static final String REMITTANCE_ROUTE = BASE_TRANSACTION_ROUTE + "/remittance";
 
@@ -41,6 +46,36 @@ public class TransactionController {
         return ok(transactionService.getTransaction(id));
     }
 
+    /**
+     * Перевод денежных средств пользователю
+     * @param remittanceDTO
+     * @return
+     */
+    @ApiOperation(value = "Перевод денежных средств пользователю")
+    @PostMapping(
+            path = REMITTANCE_ROUTE
+    )
+    public ResponseEntity<Void> transferFunds(@RequestBody RemittanceDTO remittanceDTO) {
+        transactionService.transferFunds(remittanceDTO);
+        return ok().build();
+    }
 
+    @ApiOperation(value = "Пополнение денежных средств")
+    @PostMapping(
+            path = REPLENISHMENT_ROUTE
+    )
+    public ResponseEntity<Void> replenishFunds(@RequestBody ReplenishmentDTO replenishmentDTO) {
+        transactionService.replenishFunds(replenishmentDTO);
+        return ok().build();
+    }
+
+    @ApiOperation(value = "Снятие денежных средств")
+    @PostMapping(
+            path = WITHDRAWAL_ROUTE
+    )
+    public ResponseEntity<Void> withdrawalFunds(@RequestBody WithdrawalDTO withdrawalDTO) {
+        transactionService.withdrawalFunds(withdrawalDTO);
+        return ok().build();
+    }
 
 }

@@ -32,22 +32,16 @@ public class DBInit implements ApplicationRunner {
 
     private static final String DEFAULT_PASSWORD = "123";
 
-    @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private UserRoleRepository userRoleRepository;
 
-    @Autowired
     private TransactionTypeRepository transactionTypeRepository;
 
     @Override

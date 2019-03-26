@@ -7,6 +7,7 @@ import org.hibernate.tuple.ValueGenerator;
 import ru.sberbank.transactionmanager.domain.generator.annotation.AccountNumberGeneration;
 
 public class AccountNumberGenerator implements AnnotationValueGeneration<AccountNumberGeneration> {
+
     @Override
     public void initialize(AccountNumberGeneration annotation, Class<?> propertyType) {
 
