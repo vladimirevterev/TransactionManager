@@ -17,12 +17,6 @@ public class ReplenishmentDTO {
     Long accountId;
 
     /**
-     * Номер счета зачисления средств
-     */
-    @ApiModelProperty(notes = "Номер счета зачисления средств")
-    String accountNumber;
-
-    /**
      * Сумма пополнения
      */
     @ApiModelProperty(notes = "Сумма пополнения")

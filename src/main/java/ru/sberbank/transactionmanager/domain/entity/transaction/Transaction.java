@@ -59,8 +59,7 @@ public class Transaction extends Auditable<Long> {
     @ManyToOne
     @JoinColumn(
             name = "DESTINATION_ACCOUNT_ID",
-            foreignKey = @ForeignKey(name = "DESTINATION_ACCOUNT_ID_FK"),
-            nullable = false
+            foreignKey = @ForeignKey(name = "DESTINATION_ACCOUNT_ID_FK")
     )
     public Account destinationAccount;
 

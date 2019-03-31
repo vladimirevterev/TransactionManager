@@ -47,7 +47,6 @@ public class TransactionMapper implements Mapper<Transaction, TransactionDTO> {
                 .ifPresent(source -> transactionDTO.setSourceAccount(accountMapper.toDTO(source)));
         Optional.ofNullable(transaction.getDestinationAccount())
                 .ifPresent(destination -> transactionDTO.setDestinationAccount(accountMapper.toDTO(destination)));
-        transactionDTO.setDestinationAccount(accountMapper.toDTO(transaction.getDestinationAccount()));
         return transactionDTO;
     }
 

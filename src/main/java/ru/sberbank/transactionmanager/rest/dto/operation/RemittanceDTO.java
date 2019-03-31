@@ -11,6 +11,12 @@ import lombok.Data;
 public class RemittanceDTO {
 
     /**
+     * Идентификатор счета списания средств
+     */
+    @ApiModelProperty(notes = "Идентификатор счета списания средств")
+    Long sourceAccountId;
+
+    /**
      * Идентификатор пользователя-получателя средств
      */
     @ApiModelProperty(notes = "Идентификатор пользователя-получателя средств")
@@ -20,13 +26,7 @@ public class RemittanceDTO {
      * Идентификатор счета пользователя-получателя средств
      */
     @ApiModelProperty(notes = "Идентификатор счета пользователя-получателя средств")
-    Long accountId;
-
-    /**
-     * Номер счета пользователя-получателя средств
-     */
-    @ApiModelProperty(notes = "Номер счета пользователя-получателя средств")
-    String accountNumber;
+    Long recipientAccountId;
 
     /**
      * Сумма перевода

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import ru.sberbank.transactionmanager.common.error.TransactionManagerException;
 import ru.sberbank.transactionmanager.rest.annotation.BaseRestController;
 import ru.sberbank.transactionmanager.rest.dto.operation.RemittanceDTO;
 import ru.sberbank.transactionmanager.rest.dto.operation.ReplenishmentDTO;
@@ -34,6 +35,7 @@ public class TransactionController {
 
     /**
      * Получение информации о транзакции
+     *
      * @param id идентификатор транзации
      * @return {@link TransactionDTO} данные транзакции
      */
@@ -48,32 +50,42 @@ public class TransactionController {
 
     /**
      * Перевод денежных средств пользователю
-     * @param remittanceDTO
-     * @return
+     *
+     * @param remittanceDTO данные о переводе
      */
     @ApiOperation(value = "Перевод денежных средств пользователю")
     @PostMapping(
             path = REMITTANCE_ROUTE
     )
-    public ResponseEntity<Void> transferFunds(@RequestBody RemittanceDTO remittanceDTO) {
+    public ResponseEntity<Void> transferFunds(@RequestBody RemittanceDTO remittanceDTO) throws TransactionManagerException {
         transactionService.transferFunds(remittanceDTO);
         return ok().build();
     }
 
+    /**
+     * Пополнение денежных средств
+     *
+     * @param replenishmentDTO данные по операции пополнения
+     */
     @ApiOperation(value = "Пополнение денежных средств")
     @PostMapping(
             path = REPLENISHMENT_ROUTE
     )
-    public ResponseEntity<Void> replenishFunds(@RequestBody ReplenishmentDTO replenishmentDTO) {
+    public ResponseEntity<Void> replenishFunds(@RequestBody ReplenishmentDTO replenishmentDTO) throws TransactionManagerException {
         transactionService.replenishFunds(replenishmentDTO);
         return ok().build();
     }
 
+    /**
+     * Снятие денежных средств
+     *
+     * @param withdrawalDTO данные по операции снятия
+     */
     @ApiOperation(value = "Снятие денежных средств")
     @PostMapping(
             path = WITHDRAWAL_ROUTE
     )
-    public ResponseEntity<Void> withdrawalFunds(@RequestBody WithdrawalDTO withdrawalDTO) {
+    public ResponseEntity<Void> withdrawalFunds(@RequestBody WithdrawalDTO withdrawalDTO) throws TransactionManagerException {
         transactionService.withdrawalFunds(withdrawalDTO);
         return ok().build();
     }

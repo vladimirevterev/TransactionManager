@@ -2,7 +2,6 @@ package ru.sberbank.transactionmanager.init;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +44,7 @@ public class DBInit implements ApplicationRunner {
     private TransactionTypeRepository transactionTypeRepository;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         generateDBData();
     }
 
@@ -54,8 +53,8 @@ public class DBInit implements ApplicationRunner {
         UserInfo adminUserInfo = UserInfo.builder()
                 .login("admin")
                 .encryptedPassword(passwordEncoder.encode(DEFAULT_PASSWORD))
-                .firstName("Admin")
-                .lastName("Admin")
+                .firstName("Администратор")
+                .lastName("Администратор")
                 .birthDate(LocalDate.of(1970, 1, 1))
                 .build();
         adminUserInfo = userInfoRepository.save(adminUserInfo);
@@ -66,8 +65,8 @@ public class DBInit implements ApplicationRunner {
         UserInfo sysUserInfo = UserInfo.builder()
                 .login("sys")
                 .encryptedPassword(passwordEncoder.encode(DEFAULT_PASSWORD))
-                .firstName("Sys")
-                .lastName("Sys")
+                .firstName("Система")
+                .lastName("Система")
                 .birthDate(LocalDate.of(1970, 1, 1))
                 .build();
         sysUserInfo = userInfoRepository.save(sysUserInfo);
@@ -77,6 +76,8 @@ public class DBInit implements ApplicationRunner {
         );
         generateUserAccount(adminUserInfo, true);
         generateUserAccount(adminUserInfo, false);
+        generateUserAccount(sysUserInfo, true);
+        generateUserAccount(sysUserInfo, false);
     }
 
     private void fillDictionaries() {
@@ -101,6 +102,7 @@ public class DBInit implements ApplicationRunner {
                     TransactionType.builder()
                             .code(ttd.getCode())
                             .name(ttd.toString())
+                            .description(ttd.getDescription())
                             .build()
             );
         }

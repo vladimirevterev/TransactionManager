@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Сущность, описывающая таблицу "Пользователь"
@@ -70,5 +71,15 @@ public class UserInfo extends Auditable<Long> {
             joinColumns = @JoinColumn(name = "USER_INFO_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     List<Role> roles;
+
+
+    public String getFullName() {
+        StringBuilder sb = new StringBuilder(lastName + " " + firstName);
+        if (Objects.nonNull(middleName)) {
+            sb.append(" ");
+            sb.append(middleName);
+        }
+        return sb.toString();
+    }
 
 }

@@ -17,12 +17,6 @@ public class WithdrawalDTO {
     Long accountId;
 
     /**
-     * Номер счета списания средств
-     */
-    @ApiModelProperty(notes = "Номер счета списания средств")
-    String accountNumber;
-
-    /**
      * Сумма списания
      */
     @ApiModelProperty(notes = "Сумма списания")

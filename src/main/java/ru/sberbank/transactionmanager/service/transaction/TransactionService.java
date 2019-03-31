@@ -1,5 +1,6 @@
 package ru.sberbank.transactionmanager.service.transaction;
 
+import ru.sberbank.transactionmanager.common.error.TransactionManagerException;
 import ru.sberbank.transactionmanager.rest.dto.operation.RemittanceDTO;
 import ru.sberbank.transactionmanager.rest.dto.operation.ReplenishmentDTO;
 import ru.sberbank.transactionmanager.rest.dto.operation.WithdrawalDTO;
@@ -9,6 +10,7 @@ public interface TransactionService {
 
     /**
      * Получение информации о транзакции
+     *
      * @param transactionId идентификатор транзации
      * @return {@link TransactionDTO} данные транзакции
      */
@@ -16,20 +18,23 @@ public interface TransactionService {
 
     /**
      * Перевод денежных средств пользователю
+     *
      * @param remittanceDTO данные по переводу средств
      */
-    void transferFunds(RemittanceDTO remittanceDTO);
+    void transferFunds(RemittanceDTO remittanceDTO) throws TransactionManagerException;
 
     /**
      * Пополнение денежных средств
+     *
      * @param replenishmentDTO данные по пополнению средств
      */
-    void replenishFunds(ReplenishmentDTO replenishmentDTO);
+    void replenishFunds(ReplenishmentDTO replenishmentDTO) throws TransactionManagerException;
 
     /**
      * Снятие денежных средств
+     *
      * @param withdrawalDTO данные по снятию средств
      */
-    void withdrawalFunds(WithdrawalDTO withdrawalDTO);
+    void withdrawalFunds(WithdrawalDTO withdrawalDTO) throws TransactionManagerException;
 
 }

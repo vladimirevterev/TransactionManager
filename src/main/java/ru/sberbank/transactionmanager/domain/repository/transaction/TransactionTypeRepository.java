@@ -7,6 +7,6 @@ import ru.sberbank.transactionmanager.domain.entity.transaction.TransactionType;
 @Repository
 public interface TransactionTypeRepository extends PagingAndSortingRepository<TransactionType, Long> {
 
-    TransactionType findByCode(String code);
+    TransactionType findTransactionTypeByCode(String code);
 
 }

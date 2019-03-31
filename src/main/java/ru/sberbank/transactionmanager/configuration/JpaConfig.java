@@ -9,8 +9,10 @@ import ru.sberbank.transactionmanager.configuration.auditor.AuditorAwareImpl;
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class JpaConfig {
+
     @Bean
     public AuditorAware<Long> auditorAware() {
         return new AuditorAwareImpl();
     }
+
 }
