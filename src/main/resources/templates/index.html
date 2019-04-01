@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Transaction Manager</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/}">Transaction Manager</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse" >
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a th:href="@{/logout}">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4" align="center">
+        <h2 th:text="'Привет, ' + ${username} + '!'"></h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" align="center">
+        <div class="col-lg-6 col-md-6 col-sm-6" align="center">
+            Для доступа к консоли БД нажми сюда
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6" align="center">
+            Для просмотра REST API нажми сюда
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" align="center">
+        <div class="col-lg-6 col-md-6 col-sm-6" align="center">
+            <button type="button" class="btn btn-primary btn-lg" onclick='location.href="/h2-console"'>
+                Консоль БД
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6" align="center">
+            <button type="button" class="btn btn-primary btn-lg" onclick='location.href="/swagger-ui.html"'>
+                REST API
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
