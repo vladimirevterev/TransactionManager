@@ -25,10 +25,10 @@ public class AccountDTO extends AuditableDTO<Long> {
     public Double balance;
 
     /**
-     * Пользователь-владелец счета
+     * Идентификатор пользователя-владелеца счета
      */
-    @ApiModelProperty(notes = "Пользователь-владелец счета")
-    UserInfoDTO userInfo;
+    @ApiModelProperty(notes = "Идентификатор пользователя-владелеца счета")
+    Long userId;
 
     /**
      * Признак, указывающий на то, что данный счет является главным для пользователя
