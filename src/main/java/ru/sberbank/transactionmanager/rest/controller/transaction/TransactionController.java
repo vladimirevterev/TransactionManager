@@ -3,6 +3,8 @@ package ru.sberbank.transactionmanager.rest.controller.transaction;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,8 @@ import ru.sberbank.transactionmanager.rest.dto.operation.WithdrawalDTO;
 import ru.sberbank.transactionmanager.rest.dto.transaction.TransactionDTO;
 import ru.sberbank.transactionmanager.service.transaction.TransactionService;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -27,6 +31,7 @@ public class TransactionController {
     private static final String BASE_TRANSACTION_ROUTE = "/transaction";
     private static final String ID_ROUTE = "/{id}";
     private static final String GET_ROUTE = BASE_TRANSACTION_ROUTE + ID_ROUTE;
+    private static final String USER_LIST_ROUTE = BASE_TRANSACTION_ROUTE + "/userlist" + ID_ROUTE;
     private static final String REPLENISHMENT_ROUTE = BASE_TRANSACTION_ROUTE + "/replenishment";
     private static final String WITHDRAWAL_ROUTE = BASE_TRANSACTION_ROUTE + "/withdrawal";
     private static final String REMITTANCE_ROUTE = BASE_TRANSACTION_ROUTE + "/remittance";
@@ -60,6 +65,22 @@ public class TransactionController {
     public ResponseEntity<Void> transferFunds(@RequestBody RemittanceDTO remittanceDTO) throws TransactionManagerException {
         transactionService.transferFunds(remittanceDTO);
         return ok().build();
+    }
+
+    /**
+     * Получение списка транзакций пользователя
+     *
+     * @param id идентификатор пользователя
+     * @param pageable параметры паджинации
+     * @return {@link Page<TransactionDTO>} страница транзакций пользователя
+     */
+    @ApiOperation(value = "Получение списка транзакций пользователя", response = Page.class)
+    @GetMapping(
+            path = USER_LIST_ROUTE,
+            produces = APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Page<TransactionDTO>> getUserTransactions(@PathVariable Long id, Pageable pageable) throws TransactionManagerException {
+        return ok(transactionService.getUserTransactions(id, pageable));
     }
 
     /**

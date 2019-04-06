@@ -2,6 +2,8 @@ package ru.sberbank.transactionmanager.service.transaction.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +29,8 @@ import ru.sberbank.transactionmanager.utils.UserHelper;
 
 import javax.validation.constraints.NotNull;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -49,6 +53,26 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findById(transactionId)
                 .map(transactionMapper::toDTO)
                 .orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public Page<TransactionDTO> getUserTransactions(Long userId, Pageable pageable) throws TransactionManagerException {
+        UserInfo userInfo = userInfoRepository.findById(userId).orElse(null);
+        ErrorHelper.check(
+                Objects.isNull(userInfo),
+                "Пользователь с идентификатором " + userId + " не найден",
+                Error.USER_NOT_FOUND
+        );
+        List<Account> userAccounts = userInfo.getAccounts();
+        ErrorHelper.check(
+                CollectionUtils.isEmpty(userAccounts),
+                "С данным пользователем не связано ни одного счета",
+                Error.USER_HAS_NO_ACCOUNTS
+        );
+        return transactionRepository
+                .findTransactionBySourceAccountInOrDestinationAccountIn(userAccounts, userAccounts, pageable)
+                .map(transactionMapper::toDTO);
     }
 
     @Override
