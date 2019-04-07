@@ -28,6 +28,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Класс генерации тестовых данных системы. Включает генерацию:
+ * - словарей: роли пользователей и типы транзакций
+ * - пользователей admin, user, sys с соответствующими ролями и парами счетов со случайным количеством денежных средств
+ */
 @Component
 @AllArgsConstructor
 @Setter

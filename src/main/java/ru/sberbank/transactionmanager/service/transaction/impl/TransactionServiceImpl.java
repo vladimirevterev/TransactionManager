@@ -253,7 +253,7 @@ public class TransactionServiceImpl implements TransactionService {
     /**
      * Проверка на то, что указанная сумма средств для операции перевода/пополнения/снятия положительная
      *
-     * @param amount Сумма для операции перевода/пополнения/снятия
+     * @param amount сумма для операции перевода/пополнения/снятия
      */
     private void checkTransactionAmount(Double amount) throws TransactionManagerException {
         ErrorHelper.check(
@@ -271,7 +271,7 @@ public class TransactionServiceImpl implements TransactionService {
     /**
      * Проверка на то, что пользователь связан со счетом
      *
-     * @param recipientUser    данные пользователя
+     * @param recipientUser данные пользователя
      * @param recipientAccount данные счета
      */
     private void checkIfUserHasAccount(@NotNull UserInfo recipientUser, @NotNull Account recipientAccount)

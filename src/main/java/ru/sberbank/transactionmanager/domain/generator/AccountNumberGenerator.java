@@ -6,6 +6,9 @@ import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.tuple.ValueGenerator;
 import ru.sberbank.transactionmanager.domain.generator.annotation.AccountNumberGeneration;
 
+/**
+ * Генератор номера счета при создании счета в системе
+ */
 public class AccountNumberGenerator implements AnnotationValueGeneration<AccountNumberGeneration> {
 
     @Override

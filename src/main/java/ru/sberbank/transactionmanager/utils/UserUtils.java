@@ -9,6 +9,9 @@ import ru.sberbank.transactionmanager.domain.repository.user.UserInfoRepository;
 
 import java.util.Objects;
 
+/**
+ * Вспомогательный класс для поиска пользователей
+ */
 @Component
 @AllArgsConstructor
 public class UserUtils {

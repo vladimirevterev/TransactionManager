@@ -72,7 +72,11 @@ public class UserInfo extends Auditable<Long> {
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     List<Role> roles;
 
-
+    /**
+     * Получение полного имени пользователя
+     *
+     * @return {@link String} полное имя пользователя
+     */
     public String getFullName() {
         StringBuilder sb = new StringBuilder(lastName + " " + firstName);
         if (Objects.nonNull(middleName)) {

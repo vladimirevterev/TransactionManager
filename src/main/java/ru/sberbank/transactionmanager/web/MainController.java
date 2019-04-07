@@ -15,6 +15,9 @@ import ru.sberbank.transactionmanager.utils.UserHelper;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Главный контроллер для отображения web-страниц
+ */
 @Controller
 @AllArgsConstructor
 public class MainController {

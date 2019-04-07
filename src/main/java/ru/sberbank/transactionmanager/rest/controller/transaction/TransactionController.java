@@ -25,7 +25,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @BaseRestController
 @AllArgsConstructor
-@Api(value = "Transaction", description = "Оперции управления транзакциями пользователей")
+@Api(value = "Transaction", description = "Денежные операции и операции управления транзакциями пользователя")
 public class TransactionController {
 
     private static final String BASE_TRANSACTION_ROUTE = "/transaction";

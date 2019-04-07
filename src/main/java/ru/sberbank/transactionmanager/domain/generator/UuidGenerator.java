@@ -7,6 +7,9 @@ import ru.sberbank.transactionmanager.domain.generator.annotation.UuidGeneration
 
 import java.util.UUID;
 
+/**
+ * Генератор UUID-а транзакции
+ */
 public class UuidGenerator implements AnnotationValueGeneration<UuidGeneration> {
 
     @Override

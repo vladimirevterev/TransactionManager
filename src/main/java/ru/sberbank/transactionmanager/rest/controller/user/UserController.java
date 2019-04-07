@@ -117,7 +117,7 @@ public class UserController {
      * Создание пользователя
      *
      * @param userInfoDTO данные пользователя
-     * @return {@link ResponseEntity<UserInfoDTO>}
+     * @return {@link UserInfoDTO} информация о созданном пользователе
      */
     @ApiOperation(value = "Создание пользователя системы", response = UserInfoDTO.class)
     @PutMapping(
@@ -130,6 +130,9 @@ public class UserController {
 
     /**
      * Редактирование информации о пользователе
+     *
+     * @param userInfoDTO обновленные данные пользователя
+     * @return {@link UserInfoDTO} обновленная информация о пользователе
      */
     @ApiOperation(value = "Редактирование информации о пользователе системы", response = UserInfoDTO.class)
     @PostMapping(
