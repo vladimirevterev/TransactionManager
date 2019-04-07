@@ -18,6 +18,11 @@ public class UserUtils {
     private final UserHelper userHelper;
 
     public UserInfo getUserById(Long userId) throws TransactionManagerException {
+        ErrorHelper.check(
+                Objects.isNull(userId),
+                "Информация о пользователе не найдена, т.к. не передан идентификатор пользователя",
+                Error.USER_NOT_FOUND
+        );
         UserInfo userInfo = userInfoRepository.findById(userId).orElse(null);
         ErrorHelper.check(
                 Objects.isNull(userInfo),

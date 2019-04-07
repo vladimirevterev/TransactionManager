@@ -187,7 +187,7 @@ public class TransactionServiceImpl implements TransactionService {
                     Error.RECIPIENT_NOT_SPECIFIED
             );
         }
-        UserInfo recipientUser = userUtils.getUserById(remittanceDTO.getRecipientId());
+        UserInfo recipientUser = findUser(remittanceDTO.getRecipientId());
         Account recipientAccount = findAccount(remittanceDTO.getRecipientAccountId());
         if (nonNull(recipientAccount) && nonNull(recipientUser)) {
             checkIfUserHasAccount(recipientUser, recipientAccount);
@@ -199,7 +199,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     /**
-     * Получение данных о счете
+     * Получение данных о пользователе, если он существует в системе
+     *
+     * @param userId идентификатор пользователя
+     * @return {@link UserInfo} данные пользователя
+     */
+    private UserInfo findUser(Long userId) throws TransactionManagerException {
+        if (isNull(userId)) {
+            return null;
+        }
+        return userUtils.getUserById(userId);
+    }
+
+    /**
+     * Получение данных о счете, если он существует в системе
      *
      * @param accountId идентификатор счета
      * @return {@link Account} данные счета
@@ -216,7 +229,6 @@ public class TransactionServiceImpl implements TransactionService {
         );
         return recipientAccount;
     }
-
 
     /**
      * Поиск "подходящего" счета пользователя для зачисления средств.
@@ -289,6 +301,13 @@ public class TransactionServiceImpl implements TransactionService {
         );
     }
 
+    /**
+     * Проверка на то, что пользователь связан с транзакцией,
+     * т.е. ему принадлежит счет, который является отправителем или получаетелем денежных средств
+     *
+     * @param transaction данные транзакции
+     * @param userInfo данные пользователя
+     */
     private void checkIfTransactionRelatedWithUser(@NotNull Transaction transaction, @NotNull UserInfo userInfo) throws TransactionManagerException {
         ErrorHelper.check(
                 !(userInfo.getAccounts().contains(transaction.getSourceAccount())
