@@ -31,7 +31,7 @@ public class TransactionController {
     private static final String BASE_TRANSACTION_ROUTE = "/transaction";
     private static final String ID_ROUTE = "/{id}";
     private static final String GET_ROUTE = BASE_TRANSACTION_ROUTE + ID_ROUTE;
-    private static final String USER_LIST_ROUTE = BASE_TRANSACTION_ROUTE + "/userlist" + ID_ROUTE;
+    private static final String USER_LIST_ROUTE = BASE_TRANSACTION_ROUTE + "/list";
     private static final String REPLENISHMENT_ROUTE = BASE_TRANSACTION_ROUTE + "/replenishment";
     private static final String WITHDRAWAL_ROUTE = BASE_TRANSACTION_ROUTE + "/withdrawal";
     private static final String REMITTANCE_ROUTE = BASE_TRANSACTION_ROUTE + "/remittance";
@@ -39,18 +39,33 @@ public class TransactionController {
     private TransactionService transactionService;
 
     /**
-     * Получение информации о транзакции
+     * Получение информации о транзакции текущего пользователя
      *
      * @param id идентификатор транзации
      * @return {@link TransactionDTO} данные транзакции
      */
-    @ApiOperation(value = "Получение информации о транзакции", response = TransactionDTO.class)
+    @ApiOperation(value = "Получение информации о транзакции текущего пользователя", response = TransactionDTO.class)
     @GetMapping(
             path = GET_ROUTE,
             produces = APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<TransactionDTO> getUser(@PathVariable Long id) {
+    public ResponseEntity<TransactionDTO> getUser(@PathVariable Long id) throws TransactionManagerException {
         return ok(transactionService.getTransaction(id));
+    }
+
+    /**
+     * Получение списка транзакций текущего пользователя
+     *
+     * @param pageable параметры паджинации
+     * @return {@link Page<TransactionDTO>} страница транзакций пользователя
+     */
+    @ApiOperation(value = "Получение списка транзакций текущего пользователя", response = Page.class)
+    @GetMapping(
+            path = USER_LIST_ROUTE,
+            produces = APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Page<TransactionDTO>> getUserTransactions(Pageable pageable) throws TransactionManagerException {
+        return ok(transactionService.getTransactions(pageable));
     }
 
     /**
@@ -65,22 +80,6 @@ public class TransactionController {
     public ResponseEntity<Void> transferFunds(@RequestBody RemittanceDTO remittanceDTO) throws TransactionManagerException {
         transactionService.transferFunds(remittanceDTO);
         return ok().build();
-    }
-
-    /**
-     * Получение списка транзакций пользователя
-     *
-     * @param id идентификатор пользователя
-     * @param pageable параметры паджинации
-     * @return {@link Page<TransactionDTO>} страница транзакций пользователя
-     */
-    @ApiOperation(value = "Получение списка транзакций пользователя", response = Page.class)
-    @GetMapping(
-            path = USER_LIST_ROUTE,
-            produces = APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Page<TransactionDTO>> getUserTransactions(@PathVariable Long id, Pageable pageable) throws TransactionManagerException {
-        return ok(transactionService.getUserTransactions(id, pageable));
     }
 
     /**

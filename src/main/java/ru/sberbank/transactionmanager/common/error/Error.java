@@ -52,7 +52,15 @@ public enum Error {
     /**
      * Получатель средств не указан
      */
-    RECIPIENT_NOT_SPECIFIED("TM-009", HttpStatus.BAD_REQUEST)
+    RECIPIENT_NOT_SPECIFIED("TM-009", HttpStatus.BAD_REQUEST),
+    /**
+     * Информация о транзакции не найдена
+     */
+    TRANSACTION_NOT_FOUND("TM-010", HttpStatus.NOT_FOUND),
+    /**
+     * Пользователь и траназкция не связаны
+     */
+    USER_IS_NOT_ASSOCIATED_WITH_TRANSACTION("TM-011", HttpStatus.BAD_REQUEST)
     ;
 
 

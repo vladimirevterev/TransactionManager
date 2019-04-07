@@ -11,21 +11,20 @@ import ru.sberbank.transactionmanager.rest.dto.transaction.TransactionDTO;
 public interface TransactionService {
 
     /**
-     * Получение информации о транзакции
+     * Получение информации о транзакции текущего пользователя
      *
      * @param transactionId идентификатор транзации
      * @return {@link TransactionDTO} данные транзакции
      */
-    TransactionDTO getTransaction(Long transactionId);
+    TransactionDTO getTransaction(Long transactionId) throws TransactionManagerException;
 
     /**
-     * Получение списка транзакций пользователя
+     * Получение списка транзакций текущего пользователя
      *
-     * @param userId идентификатор пользователя
      * @param pageable параметры паджинации
      * @return {@link Page<TransactionDTO>} страница транзакций пользователя
      */
-    Page<TransactionDTO> getUserTransactions(Long userId, Pageable pageable) throws TransactionManagerException;
+    Page<TransactionDTO> getTransactions(Pageable pageable) throws TransactionManagerException;
 
     /**
      * Перевод денежных средств пользователю

@@ -17,7 +17,6 @@ import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
 import ru.sberbank.transactionmanager.domain.repository.account.AccountRepository;
 import ru.sberbank.transactionmanager.domain.repository.transaction.TransactionRepository;
 import ru.sberbank.transactionmanager.domain.repository.transaction.TransactionTypeRepository;
-import ru.sberbank.transactionmanager.domain.repository.user.UserInfoRepository;
 import ru.sberbank.transactionmanager.mapper.transaction.TransactionMapper;
 import ru.sberbank.transactionmanager.rest.dto.operation.RemittanceDTO;
 import ru.sberbank.transactionmanager.rest.dto.operation.ReplenishmentDTO;
@@ -25,12 +24,11 @@ import ru.sberbank.transactionmanager.rest.dto.operation.WithdrawalDTO;
 import ru.sberbank.transactionmanager.rest.dto.transaction.TransactionDTO;
 import ru.sberbank.transactionmanager.service.transaction.TransactionService;
 import ru.sberbank.transactionmanager.utils.ErrorHelper;
-import ru.sberbank.transactionmanager.utils.UserHelper;
+import ru.sberbank.transactionmanager.utils.UserUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -41,33 +39,33 @@ import static java.util.Objects.isNull;
 public class TransactionServiceImpl implements TransactionService {
 
     private TransactionMapper transactionMapper;
-    private UserHelper userHelper;
     private TransactionRepository transactionRepository;
     private TransactionTypeRepository transactionTypeRepository;
-    private UserInfoRepository userInfoRepository;
     private AccountRepository accountRepository;
+    private UserUtils userUtils;
 
     @Override
     @Transactional
-    public TransactionDTO getTransaction(Long transactionId) {
-        return transactionRepository.findById(transactionId)
-                .map(transactionMapper::toDTO)
-                .orElse(null);
+    public TransactionDTO getTransaction(Long transactionId) throws TransactionManagerException {
+        Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
+        UserInfo currentUserInfo = userUtils.getCurrentUser();
+        ErrorHelper.check(
+                isNull(transaction),
+                "Информация о транзакции с идентификатором " + transactionId + " не найдена",
+                Error.TRANSACTION_NOT_FOUND
+        );
+        checkIfTransactionRelatedWithUser(transaction, currentUserInfo);
+        return transactionMapper.toDTO(transaction);
     }
 
     @Override
     @Transactional
-    public Page<TransactionDTO> getUserTransactions(Long userId, Pageable pageable) throws TransactionManagerException {
-        UserInfo userInfo = userInfoRepository.findById(userId).orElse(null);
-        ErrorHelper.check(
-                Objects.isNull(userInfo),
-                "Пользователь с идентификатором " + userId + " не найден",
-                Error.USER_NOT_FOUND
-        );
-        List<Account> userAccounts = userInfo.getAccounts();
+    public Page<TransactionDTO> getTransactions(Pageable pageable) throws TransactionManagerException {
+        UserInfo currentUser = userUtils.getCurrentUser();
+        List<Account> userAccounts = currentUser.getAccounts();
         ErrorHelper.check(
                 CollectionUtils.isEmpty(userAccounts),
-                "С данным пользователем не связано ни одного счета",
+                "С данным текущего пользователя не связано ни одного счета",
                 Error.USER_HAS_NO_ACCOUNTS
         );
         return transactionRepository
@@ -101,7 +99,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void replenishFunds(ReplenishmentDTO replenishmentDTO) throws TransactionManagerException {
         checkTransactionAmount(replenishmentDTO.getAmount());
-        UserInfo currentUserInfo = getCurrentUserInfo();
+        UserInfo currentUserInfo = userUtils.getCurrentUser();
         Account sourceAccount = findAccount(replenishmentDTO.getAccountId());
         if (nonNull(sourceAccount)) {
             checkIfUserHasAccount(currentUserInfo, sourceAccount);
@@ -150,7 +148,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return {@link Account} счет текущего пользователя
      */
     private Account getSourceAccount(Long currentUserAccountId, Double requiredBalance) throws TransactionManagerException {
-        UserInfo currentUserInfo = getCurrentUserInfo();
+        UserInfo currentUserInfo = userUtils.getCurrentUser();
         ErrorHelper.check(
                 CollectionUtils.isEmpty(currentUserInfo.getAccounts()),
                 "С текущим пользователем не связано ни одного счета",
@@ -189,7 +187,7 @@ public class TransactionServiceImpl implements TransactionService {
                     Error.RECIPIENT_NOT_SPECIFIED
             );
         }
-        UserInfo recipientUser = findUser(remittanceDTO.getRecipientId());
+        UserInfo recipientUser = userUtils.getUserById(remittanceDTO.getRecipientId());
         Account recipientAccount = findAccount(remittanceDTO.getRecipientAccountId());
         if (nonNull(recipientAccount) && nonNull(recipientUser)) {
             checkIfUserHasAccount(recipientUser, recipientAccount);
@@ -198,38 +196,6 @@ public class TransactionServiceImpl implements TransactionService {
             return getSuitableUserAccount(recipientUser);
         }
         return recipientAccount;
-    }
-
-    /**
-     * Получение данных о текущем пользователе
-     */
-    private UserInfo getCurrentUserInfo() throws TransactionManagerException {
-        UserInfo currentUserInfo = userHelper.getCurrentUser();
-        ErrorHelper.check(
-                isNull(currentUserInfo),
-                "Текущий пользователь не задан",
-                Error.CURRENT_USER_NOT_SPECIFIED
-        );
-        return currentUserInfo;
-    }
-
-    /**
-     * Получение данных о пользователе
-     *
-     * @param userId идентификатор пользователя
-     * @return {@link UserInfo} данные пользовтеля
-     */
-    private UserInfo findUser(Long userId) throws TransactionManagerException {
-        if (isNull(userId)) {
-            return null;
-        }
-        UserInfo recipientUser = userInfoRepository.findById(userId).orElse(null);
-        ErrorHelper.check(
-                isNull(recipientUser),
-                "Пользователь с идентификатором " + userId + " не зарегистрирован в системе",
-                Error.USER_NOT_FOUND
-        );
-        return recipientUser;
     }
 
     /**
@@ -323,4 +289,12 @@ public class TransactionServiceImpl implements TransactionService {
         );
     }
 
+    private void checkIfTransactionRelatedWithUser(@NotNull Transaction transaction, @NotNull UserInfo userInfo) throws TransactionManagerException {
+        ErrorHelper.check(
+                !(userInfo.getAccounts().contains(transaction.getSourceAccount())
+                        || userInfo.getAccounts().contains(transaction.getDestinationAccount())),
+                "Данная транзакция не связана с текущим пользователем",
+                Error.USER_IS_NOT_ASSOCIATED_WITH_TRANSACTION
+        );
+    }
 }
