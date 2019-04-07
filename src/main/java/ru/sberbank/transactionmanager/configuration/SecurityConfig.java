@@ -1,5 +1,6 @@
 package ru.sberbank.transactionmanager.configuration;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +16,13 @@ import ru.sberbank.transactionmanager.configuration.security.UserDetailsServiceI
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_PAGE_URI = "/login";
-    private static final String API_V1_URL_PATTERN = "/api/**";
+    private static final String API_TRANSACTION_URL_PATTERN = "/api/transaction/**";
+    private static final String API_USER_URL_PATTERN = "/api/user/**";
+
     private static final String[] BASE_INDEX_URL_PATTERN = {
             "/**",
             "/index"
@@ -38,10 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2-console/**"
     };
 
-    @Autowired
     private AuthenticationEntryPoint authEntryPoint;
 
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Override
@@ -51,13 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().permitAll();
 
         http.authorizeRequests()
-                .antMatchers(BASE_INDEX_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
+                .antMatchers(LOGIN_PAGE_URI).permitAll()
                 .antMatchers(SWAGGER_ENDPOINTS).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
                 .antMatchers(H2_ENDPOINTS).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(HttpMethod.PUT, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(HttpMethod.POST, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(HttpMethod.DELETE, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(HttpMethod.GET, API_V1_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
+                .antMatchers(API_TRANSACTION_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
+                .antMatchers(HttpMethod.GET, API_USER_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
+                .antMatchers(HttpMethod.PUT, API_USER_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
+                .antMatchers(HttpMethod.POST, API_USER_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
+                .antMatchers(HttpMethod.DELETE, API_USER_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
+                .antMatchers(BASE_INDEX_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
                 .anyRequest().authenticated();
 
         http.csrf().disable();

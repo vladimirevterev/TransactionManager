@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.sberbank.transactionmanager.common.error.Error;
 import ru.sberbank.transactionmanager.common.error.TransactionManagerException;
 import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
 import ru.sberbank.transactionmanager.domain.repository.account.AccountRepository;
@@ -14,6 +15,7 @@ import ru.sberbank.transactionmanager.rest.dto.user.UserInfoDTO;
 import ru.sberbank.transactionmanager.mapper.user.UserInfoMapper;
 import ru.sberbank.transactionmanager.domain.repository.user.UserInfoRepository;
 import ru.sberbank.transactionmanager.service.user.UserInfoService;
+import ru.sberbank.transactionmanager.utils.ErrorHelper;
 import ru.sberbank.transactionmanager.utils.UserUtils;
 
 import java.util.Objects;
@@ -74,11 +76,15 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     @Transactional
-    public void deleteUser(Long userId) {
-        UserInfo userInfo = userInfoRepository.findById(userId).orElse(null);
-        if (Objects.nonNull(userInfo)) {
-            userInfoRepository.delete(userInfo);
+    public void deleteUser(Long userId) throws TransactionManagerException {
+        if (userUtils.getCurrentUser().getId().equals(userId)) {
+            ErrorHelper.makeError(
+                    "Удаление текущего пользователя запрещено",
+                    Error.REMOVING_USER_IS_FORBIDDEN
+            );
         }
+        UserInfo userInfo = userUtils.getUserById(userId);
+        userInfoRepository.delete(userInfo);
     }
 
 }

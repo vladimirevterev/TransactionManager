@@ -69,6 +69,6 @@ public interface UserInfoService {
      *
      * @param userId идентификатор пользователя
      */
-    void deleteUser(Long userId);
+    void deleteUser(Long userId) throws TransactionManagerException;
 
 }

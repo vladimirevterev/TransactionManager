@@ -60,7 +60,11 @@ public enum Error {
     /**
      * Пользователь и траназкция не связаны
      */
-    USER_IS_NOT_ASSOCIATED_WITH_TRANSACTION("TM-011", HttpStatus.BAD_REQUEST)
+    USER_IS_NOT_ASSOCIATED_WITH_TRANSACTION("TM-011", HttpStatus.BAD_REQUEST),
+    /**
+     * Удаление пользователя запрещено
+     */
+    REMOVING_USER_IS_FORBIDDEN("TM-012", HttpStatus.BAD_REQUEST)
     ;
 
 

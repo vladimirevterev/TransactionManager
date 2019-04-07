@@ -148,7 +148,7 @@ public class UserController {
      */
     @ApiOperation(value = "Удаление пользователя системы")
     @DeleteMapping(path = DELETE_ROUTE)
-    public ResponseEntity<UserInfoDTO> deleteUser(@PathVariable(ID) Long userId) {
+    public ResponseEntity<UserInfoDTO> deleteUser(@PathVariable(ID) Long userId) throws TransactionManagerException {
         userInfoService.deleteUser(userId);
         return noContent().build();
     }
