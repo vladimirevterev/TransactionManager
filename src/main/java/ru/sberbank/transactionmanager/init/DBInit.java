@@ -148,6 +148,7 @@ public class DBInit implements ApplicationRunner {
                     Role.builder()
                             .code(rd.getCode())
                             .name(RoleDictionary.ROLE_PREFIX + rd.toString())
+                            .description(rd.getDescription())
                             .build()
             );
         }

@@ -18,9 +18,11 @@ import ru.sberbank.transactionmanager.configuration.security.UserDetailsServiceI
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_PAGE_URI = "/login";
-    private static final String ADMIN_PAGE_URL_PATTERN = "/admin/**";
-    private static final String USER_PAGE_URL_PATTERN = "/user/**";
     private static final String API_V1_URL_PATTERN = "/api/**";
+    private static final String[] BASE_INDEX_URL_PATTERN = {
+            "/**",
+            "/index"
+    };
 
     private static final String[] SWAGGER_ENDPOINTS = {
             "/v2/api-docs",
@@ -49,10 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().permitAll();
 
         http.authorizeRequests()
+                .antMatchers(BASE_INDEX_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
+                .antMatchers(SWAGGER_ENDPOINTS).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
                 .antMatchers(H2_ENDPOINTS).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(SWAGGER_ENDPOINTS).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(ADMIN_PAGE_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
-                .antMatchers(USER_PAGE_URL_PATTERN).hasAnyRole(RoleDictionary.ADMIN.toString(), RoleDictionary.USER.toString())
                 .antMatchers(HttpMethod.PUT, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())
                 .antMatchers(HttpMethod.DELETE, API_V1_URL_PATTERN).hasRole(RoleDictionary.ADMIN.toString())

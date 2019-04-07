@@ -21,14 +21,13 @@
     </nav>
 </div>
 
-<div class="row">
-    <div class="col-lg-4 col-lg-offset-4" align="center">
+<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12" align="center">
+
+    <div class="row" align="center">
         <h2 th:text="'Привет, ' + ${username} + '!'"></h2>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" align="center">
+    <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6" align="center">
             Для доступа к консоли БД нажми сюда
         </div>
@@ -36,10 +35,8 @@
             Для просмотра REST API нажми сюда
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" align="center">
+    <br>
+    <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6" align="center">
             <button type="button" class="btn btn-primary btn-lg" onclick='location.href="/h2-console"'>
                 Консоль БД
@@ -51,6 +48,36 @@
             </button>
         </div>
     </div>
+    <br>
+    <div class="container-fluid" align="center">
+        <p><h4><strong>Твои роли</strong></h4></p>
+        <table class="table table-striped">
+            <tr>
+                <th>Наименование</th>
+                <th>Описание</th>
+                <th>Код</th>
+            </tr>
+            <tr th:each ="role : ${roles}">
+                <td th:utext="${role.name}">...</td>
+                <td th:utext="${role.description}">...</td>
+                <td th:utext="${role.code}">...</td>
+            </tr>
+        </table>
+        <p><h4><strong>Твои счета</strong></h4></p>
+        <table class="table table-striped">
+            <tr>
+                <th>Номер</th>
+                <th>Баланс</th>
+                <th>Главный</th>
+            </tr>
+            <tr th:each ="account : ${accounts}">
+                <td th:utext="${account.number}">...</td>
+                <td th:utext="${account.balance}">...</td>
+                <td th:utext="${account.isPrimary}">...</td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 </body>
