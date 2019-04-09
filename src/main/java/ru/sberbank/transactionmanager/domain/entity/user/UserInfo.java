@@ -25,7 +25,7 @@ public class UserInfo extends Auditable<Long> {
     /**
      * Логин пользователя
      */
-    @Column(name = "LOGIN", length = 64, nullable = false)
+    @Column(name = "LOGIN", length = 64, nullable = false, unique = true)
     public String login;
 
     /**
@@ -62,14 +62,13 @@ public class UserInfo extends Auditable<Long> {
     /**
      * Список {@link Account} счетов пользователя
      */
-    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
     List<Account> accounts;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "USER_ROLE",
-            joinColumns = @JoinColumn(name = "USER_INFO_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    /**
+     * Список {@link Role} ролей пользователя
+     */
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     List<Role> roles;
 
     /**

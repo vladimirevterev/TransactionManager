@@ -3,10 +3,7 @@ package ru.sberbank.transactionmanager.domain.entity.user;
 import lombok.*;
 import ru.sberbank.transactionmanager.domain.entity.Identified;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -46,7 +43,12 @@ public class Role extends Identified {
     /**
      * Список пользователей, с которыми связана роль
      */
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = @JoinColumn(name = "ROLE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_INFO_ID")
+    )
     List<UserInfo> users;
 
 }

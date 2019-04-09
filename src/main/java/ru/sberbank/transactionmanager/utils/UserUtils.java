@@ -20,6 +20,14 @@ public class UserUtils {
 
     private final UserHelper userHelper;
 
+    public void checkIfUserExists(Long userId) throws TransactionManagerException {
+        ErrorHelper.check(
+                Objects.isNull(userId) || !userInfoRepository.existsById(userId),
+                "Информация о пользователе с идентификатором " + userId + " не найдена",
+                Error.USER_NOT_FOUND
+        );
+    }
+
     public UserInfo getUserById(Long userId) throws TransactionManagerException {
         ErrorHelper.check(
                 Objects.isNull(userId),

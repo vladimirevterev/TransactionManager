@@ -3,13 +3,18 @@ package ru.sberbank.transactionmanager.service.user.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import ru.sberbank.transactionmanager.common.error.Error;
 import ru.sberbank.transactionmanager.common.error.TransactionManagerException;
 import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
+import ru.sberbank.transactionmanager.domain.entity.user.UserRole;
 import ru.sberbank.transactionmanager.domain.repository.account.AccountRepository;
+import ru.sberbank.transactionmanager.domain.repository.user.UserRoleRepository;
 import ru.sberbank.transactionmanager.mapper.account.AccountMapper;
+import ru.sberbank.transactionmanager.mapper.user.RoleMapper;
 import ru.sberbank.transactionmanager.rest.dto.account.AccountDTO;
 import ru.sberbank.transactionmanager.rest.dto.user.UserInfoDTO;
 import ru.sberbank.transactionmanager.mapper.user.UserInfoMapper;
@@ -18,19 +23,25 @@ import ru.sberbank.transactionmanager.service.user.UserInfoService;
 import ru.sberbank.transactionmanager.utils.ErrorHelper;
 import ru.sberbank.transactionmanager.utils.UserUtils;
 
-import java.util.Objects;
-
 @AllArgsConstructor
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
 
+    private static final String DEFAULT_PASSWORD = "123";
+
     private UserInfoMapper userInfoMapper;
+
+    private RoleMapper roleMapper;
 
     private AccountMapper accountMapper;
 
     private UserInfoRepository userInfoRepository;
 
+    private UserRoleRepository userRoleRepository;
+
     private AccountRepository accountRepository;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private UserUtils userUtils;
 
@@ -65,13 +76,22 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     @Transactional
     public UserInfoDTO createUser(UserInfoDTO userInfoDTO) {
-        return userInfoMapper.toDTO(userInfoRepository.save(userInfoMapper.toEntity(userInfoDTO)));
+        UserInfo userInfo = userInfoMapper.toEntity(userInfoDTO);
+        userInfo.setEncryptedPassword(bCryptPasswordEncoder.encode(DEFAULT_PASSWORD));
+        userInfo = userInfoRepository.save(userInfo);
+        updateUserRoles(userInfo);
+        return userInfoMapper.toDTO(userInfo);
     }
 
     @Override
     @Transactional
-    public UserInfoDTO updateUser(UserInfoDTO userInfoDTO) {
-        return userInfoMapper.toDTO(userInfoRepository.save(userInfoMapper.toEntity(userInfoDTO)));
+    public UserInfoDTO updateUser(UserInfoDTO userInfoDTO) throws TransactionManagerException {
+        UserInfo oldUserInfo = userUtils.getUserById(userInfoDTO.getId());
+        UserInfo newUserInfo = userInfoMapper.toEntity(userInfoDTO);
+        newUserInfo.setEncryptedPassword(oldUserInfo.getEncryptedPassword());
+        newUserInfo = userInfoRepository.save(userInfoMapper.toEntity(userInfoDTO));
+        updateUserRoles(newUserInfo);
+        return userInfoMapper.toDTO(newUserInfo);
     }
 
     @Override
@@ -87,4 +107,13 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfoRepository.delete(userInfo);
     }
 
+    private void updateUserRoles(UserInfo userInfo) {
+        userRoleRepository.findByUserInfoEquals(userInfo).forEach(userRoleRepository::delete);
+        if (CollectionUtils.isEmpty(userInfo.getRoles())) {
+            return;
+        }
+        userInfo.getRoles().forEach(role ->
+            userRoleRepository.save(UserRole.builder().role(role).userInfo(userInfo).build())
+        );
+    }
 }

@@ -62,7 +62,7 @@ public interface UserInfoService {
      * @param userInfoDTO обновленные данные пользователя
      * @return {@link UserInfoDTO}
      */
-    UserInfoDTO updateUser(UserInfoDTO userInfoDTO);
+    UserInfoDTO updateUser(UserInfoDTO userInfoDTO) throws TransactionManagerException;
 
     /**
      * Удаление пользователя

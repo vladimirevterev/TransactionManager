@@ -139,7 +139,7 @@ public class UserController {
             path = UPDATE_ROUTE,
             produces = APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<UserInfoDTO> updateUser(@RequestBody UserInfoDTO userInfoDTO) {
+    public ResponseEntity<UserInfoDTO> updateUser(@RequestBody UserInfoDTO userInfoDTO) throws TransactionManagerException {
         return ok(userInfoService.updateUser(userInfoDTO));
     }
 
