@@ -12,7 +12,7 @@
 
 	<groupId>ru.sberbank</groupId>
 	<artifactId>transactionmanager</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>transactionmanager</name>
 	<description>Test project for DomClick</description>
 
@@ -77,10 +77,6 @@
             <version>2.8.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-        </dependency>
 
         <!--Прочее-->
         <dependency>
@@ -105,10 +101,6 @@
             <artifactId>bootstrap</artifactId>
             <version>3.3.7</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.liquibase</groupId>-->
-        <!--<artifactId>liquibase-core</artifactId>-->
-        <!--</dependency>-->
 	</dependencies>
 
 	<build>
