@@ -18,4 +18,8 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
             Pageable pageable
     );
 
+    void deleteTransactionBySourceAccountIn(List<Account> accounts);
+
+    void deleteTransactionByDestinationAccountIn(List<Account> accounts);
+
 }

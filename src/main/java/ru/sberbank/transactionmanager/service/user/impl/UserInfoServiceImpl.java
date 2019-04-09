@@ -12,6 +12,7 @@ import ru.sberbank.transactionmanager.common.error.TransactionManagerException;
 import ru.sberbank.transactionmanager.domain.entity.user.UserInfo;
 import ru.sberbank.transactionmanager.domain.entity.user.UserRole;
 import ru.sberbank.transactionmanager.domain.repository.account.AccountRepository;
+import ru.sberbank.transactionmanager.domain.repository.transaction.TransactionRepository;
 import ru.sberbank.transactionmanager.domain.repository.user.UserRoleRepository;
 import ru.sberbank.transactionmanager.mapper.account.AccountMapper;
 import ru.sberbank.transactionmanager.mapper.user.RoleMapper;
@@ -38,6 +39,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoRepository userInfoRepository;
 
     private UserRoleRepository userRoleRepository;
+
+    private TransactionRepository transactionRepository;
 
     private AccountRepository accountRepository;
 
@@ -104,11 +107,15 @@ public class UserInfoServiceImpl implements UserInfoService {
             );
         }
         UserInfo userInfo = userUtils.getUserById(userId);
+        userRoleRepository.deleteUserRoleByUserInfoEquals(userInfo);
+        transactionRepository.deleteTransactionByDestinationAccountIn(userInfo.getAccounts());
+        transactionRepository.deleteTransactionBySourceAccountIn(userInfo.getAccounts());
+        accountRepository.deleteAccountByUserInfoEquals(userInfo);
         userInfoRepository.delete(userInfo);
     }
 
     private void updateUserRoles(UserInfo userInfo) {
-        userRoleRepository.findByUserInfoEquals(userInfo).forEach(userRoleRepository::delete);
+        userRoleRepository.deleteUserRoleByUserInfoEquals(userInfo);
         if (CollectionUtils.isEmpty(userInfo.getRoles())) {
             return;
         }

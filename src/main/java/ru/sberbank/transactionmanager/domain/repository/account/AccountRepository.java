@@ -12,4 +12,6 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
 
     Page<Account> findAccountByUserInfo(UserInfo userInfo, Pageable pageable);
 
+    void deleteAccountByUserInfoEquals(UserInfo userInfo);
+
 }

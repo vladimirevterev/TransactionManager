@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface UserRoleRepository extends PagingAndSortingRepository<UserRole, Long> {
 
-    List<UserRole> findByUserInfoEquals(UserInfo user);
+    void deleteUserRoleByUserInfoEquals(UserInfo user);
 
 }
