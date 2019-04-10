@@ -42,9 +42,9 @@ public class MainController {
                 .map(Role::getCode)
                 .collect(Collectors.toSet())
                 .contains(RoleDictionary.ADMIN.getCode())) {
-            return "/adminindex";
+            return "adminindex";
         }
-        return "/userindex";
+        return "userindex";
     }
 
 }
